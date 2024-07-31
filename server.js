@@ -9,7 +9,7 @@ const FastifyCors = require('@fastify/cors');
 const app = Fastify();
 
 app.register(FastifyCors, {
-    origin: '*', // Permite apenas a origem especificada
+    origin: ['http://localhost:5173', 'https://cardapio-teste.netlify.app/'], // Permite apenas a origem especificada
     methods: ['GET', 'POST'], // Permite apenas os métodos especificados
     allowedHeaders: ['Content-Type', 'Authorization'], // Permite apenas os cabeçalhos especificados
   });
