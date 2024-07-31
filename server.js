@@ -4,15 +4,20 @@ const fs = require('fs');
 const path = require('path');
 const FastifyMultipart = require('@fastify/multipart');
 const FastifyStatic = require('@fastify/static');
-const FastifyCors = require('@fastify/cors');
+const FastifyExpress = require('@fastify/express');
+const cors = require('cors');
 
 const app = Fastify();
 
-app.register(FastifyCors, {
-    origin: ['http://localhost:5173', 'https://cardapio-teste.netlify.app/'], // Permite apenas a origem especificada
-    methods: ['GET', 'POST'], // Permite apenas os métodos especificados
-    allowedHeaders: ['Content-Type', 'Authorization'], // Permite apenas os cabeçalhos especificados
-  });
+// Registro do FastifyExpress para usar middlewares do Express
+app.register(FastifyExpress).then(() => {
+  // Configuração de CORS manual usando cors do Express
+  app.use(cors({
+    origin: ['http://localhost:5173', 'https://cardapio-teste.netlify.app/'],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
+});
 
 // Diretório onde as imagens serão salvas
 const uploadDir = path.join(__dirname, 'uploads');
@@ -31,10 +36,9 @@ app.register(FastifyMultipart, {
 
 // Configurar Fastify para servir arquivos estáticos
 app.register(FastifyStatic, {
-    root: uploadDir,
-    prefix: '/uploads/', // Prefixo para acessar os arquivos
-  });
-  
+  root: uploadDir,
+  prefix: '/uploads/', // Prefixo para acessar os arquivos
+});
 
 // Rota para fazer o upload das imagens
 app.post('/upload', async (request, reply) => {
@@ -56,31 +60,31 @@ app.post('/upload', async (request, reply) => {
 
 // Rota para listar arquivos
 app.get('/uploads', async (request, reply) => {
-    try {
-      const files = fs.readdirSync(uploadDir);
-      reply.send(files);
-    } catch (error) {
-      reply.status(500).send({ message: 'Erro ao listar arquivos' });
-    }
-  });
+  try {
+    const files = fs.readdirSync(uploadDir);
+    reply.send(files);
+  } catch (error) {
+    reply.status(500).send({ message: 'Erro ao listar arquivos' });
+  }
+});
 
-/// Rota personalizada para fornecer imagens
+// Rota personalizada para fornecer imagens
 app.get('/uploads/:filename', async (request, reply) => {
-    const filename = request.params.filename;
-    const filePath = path.join(__dirname, 'uploads', filename);
-  
-    try {
-      const file = fs.readFileSync(filePath);
-      reply.type('image/jpg'); // Ajuste o tipo MIME conforme necessário
-      reply.send(file);
-    } catch (err) {
-      reply.status(404).send({ message: 'Arquivo não encontrado' });
-    }
-  });
+  const filename = request.params.filename;
+  const filePath = path.join(__dirname, 'uploads', filename);
 
-app.get('/', async (req, reply) =>{
-  reply.send({message: "Deu certo"})
-})
+  try {
+    const file = fs.readFileSync(filePath);
+    reply.type('image/jpg'); // Ajuste o tipo MIME conforme necessário
+    reply.send(file);
+  } catch (err) {
+    reply.status(404).send({ message: 'Arquivo não encontrado' });
+  }
+});
+
+app.get('/', async (req, reply) => {
+  reply.send({ message: "Deu certo" });
+});
 
 // Inicia o servidor
 app.listen({ port: 3001 }, (err, address) => {
