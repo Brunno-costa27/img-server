@@ -83,13 +83,13 @@ app.get('/', async (req, reply) =>{
 })
 
 // Inicia o servidor
-// app.listen({ port: 3001 }, (err, address) => {
-//   if (err) {
-//     console.error(err);
-//     process.exit(1);
-//   }
-//   console.log(`Server listening at ${address}`);
-// });
+app.listen({ port: 3001 }, (err, address) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(`Server listening at ${address}`);
+});
 
 module.exports = async (req, res) => {
   await app.ready();
