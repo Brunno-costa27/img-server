@@ -13,7 +13,7 @@ const app = Fastify();
 app.register(FastifyExpress).then(() => {
   // Configuração de CORS manual usando cors do Express
   app.use(cors({
-    origin: ['http://localhost:5173', 'https://cardapio-teste.netlify.app/'],
+    origin: ['http://localhost:5173', 'https://cardapio-teste.netlify.app'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }));
