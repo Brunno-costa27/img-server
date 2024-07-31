@@ -78,6 +78,10 @@ app.get('/uploads/:filename', async (request, reply) => {
     }
   });
 
+app.get('/', async (req, reply) =>{
+  reply.send({message: "Deu certo"})
+})
+
 // Inicia o servidor
 app.listen({ port: 3001 }, (err, address) => {
   if (err) {
@@ -86,3 +90,8 @@ app.listen({ port: 3001 }, (err, address) => {
   }
   console.log(`Server listening at ${address}`);
 });
+
+module.exports = async (req, res) => {
+  await app.ready();
+  app.server.emit('request', req, res);
+};
