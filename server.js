@@ -9,7 +9,7 @@ const FastifyCors = require('@fastify/cors');
 const app = Fastify();
 
 app.register(FastifyCors, {
-    origin: 'http://localhost:5173', // Permite apenas a origem especificada
+    origin: true, // Permite apenas a origem especificada
     methods: ['GET', 'POST'], // Permite apenas os métodos especificados
     allowedHeaders: ['Content-Type'], // Permite apenas os cabeçalhos especificados
   });
