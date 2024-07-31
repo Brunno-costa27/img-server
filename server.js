@@ -11,7 +11,7 @@ const app = Fastify();
 app.register(FastifyCors, {
     origin: true, // Permite apenas a origem especificada
     methods: ['GET', 'POST'], // Permite apenas os métodos especificados
-    allowedHeaders: ['Content-Type'], // Permite apenas os cabeçalhos especificados
+    allowedHeaders: ['Content-Type', 'Authorization'], // Permite apenas os cabeçalhos especificados
   });
 
 // Diretório onde as imagens serão salvas
