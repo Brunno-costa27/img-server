@@ -91,7 +91,7 @@ app.listen({ port: 3001 }, (err, address) => {
   console.log(`Server listening at ${address}`);
 });
 
-module.exports = async (req, res) => {
-  await app.ready();
-  app.server.emit('request', req, res);
-};
+// module.exports = async (req, res) => {
+//   await app.ready();
+//   app.server.emit('request', req, res);
+// };
