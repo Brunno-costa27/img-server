@@ -71,7 +71,7 @@ app.get('/uploads/:filename', async (request, reply) => {
   
     try {
       const file = fs.readFileSync(filePath);
-      reply.type('image/jpeg'); // Ajuste o tipo MIME conforme necessário
+      reply.type('image/jpg'); // Ajuste o tipo MIME conforme necessário
       reply.send(file);
     } catch (err) {
       reply.status(404).send({ message: 'Arquivo não encontrado' });
