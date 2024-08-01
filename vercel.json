@@ -1,24 +1,28 @@
 {
     "version": 2,
     "builds": [
-      {
-        "src": "server.js",
-        "use": "@vercel/node"
-      }
+        {
+            "src": "server.js",
+            "use": "@vercel/node"
+        }
     ],
     "routes": [
-      {
-        "src": "/uploads/(.*)",
-        "dest": "/uploads/$1"
-      },
-      {
-        "src": "/upload",
-        "dest": "/upload"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        },
+        
+        {
+            "src": "/upload",
+            "dest": "server.js"
+        },
+        {
+            "src": "/uploads",
+            "dest": "server.js"
+        },
+        {
+            "src": "/uploads/$1",
+            "dest": "server.js"
+        }
     ]
-  }
-  
+}
